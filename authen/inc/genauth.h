@@ -5,13 +5,26 @@
 #ifndef IISPACEPROXY_AUTHINFOGENERATE_H
 #define IISPACEPROXY_AUTHINFOGENERATE_H
 
+#if defined(_WIN32) || defined(_WIN64)
+    #ifdef EXPORT_AUTHEN
+        #define AUTHEN_API __declspec(dllexport)
+    #else
+        #define AUTHEN_API __declspec(dllimport)
+    #endif
+#elif defined(__APPLE__)//todo: check useful or not
+    #ifdef EXPORT_AUTHEN
+        #define AUTHEN_API __attribute__((visibility("default")))
+    #else
+        #define AUTHEN_API
+    #endif
+#endif
+
 #include <string>
 
-class AuthInfoGenerator
+class AUTHEN_API AuthInfoGenerator
 {
 private:
     std::string token;
-    static const std::string magic;
 public:
     explicit
     AuthInfoGenerator(const std::string& token);
