@@ -1,6 +1,6 @@
 
-
 if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    set(AUTHEN_USE_PREBUILD FALSE PARENT_SCOPE)
     aux_source_directory(src AUTH_SRC)
     add_library(authen SHARED
             ${AUTH_SRC}
@@ -23,6 +23,8 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src)
             ${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
 else()
+    set(AUTHEN_USE_PREBUILD TRUE PARENT_SCOPE)
+
     add_library(authen SHARED IMPORTED GLOBAL)
     if (MSVC)
         set_target_properties(authen PROPERTIES

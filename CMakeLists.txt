@@ -74,7 +74,13 @@ if(APPLE)
 else()
     install(TARGETS IIspaceProxy
             RUNTIME DESTINATION .)
-    install(TARGETS authen RUNTIME DESTINATION .)
+    if(NOT ${AUTHEN_USE_PREBUILD})
+        install(TARGETS authen RUNTIME DESTINATION .)
+    else()
+        #AI说 cmake只会把imported库视为外来的所以无法install targets
+        get_target_property(AUTHEN_LIB_PATH authen IMPORTED_LOCATION)
+        install(FILES ${AUTHEN_LIB_PATH} DESTINATION .)
+    endif()
 endif ()
 
 if(QT_FEATURE_shared)
